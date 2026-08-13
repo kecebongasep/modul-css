@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 10 — Responsive Design</title>
+  <style>
+    :root{--bg:#151515;--card:#202020;--text:#f7f7f7;--muted:rgba(255,255,255,.72);--line:rgba(255,255,255,.18);--blue:#5e9fe8;--blue-soft:rgba(94,159,232,.14);--green:#72bc8f;--green-soft:rgba(114,188,143,.14);--orange:#de9255;--orange-soft:rgba(222,146,85,.16);--red:#e97366;--red-soft:rgba(233,115,102,.14);--code:#0f141b;--radius:12px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Arial,Helvetica,sans-serif}button,input,textarea,select{font:inherit}.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.nav{max-width:1040px;margin:auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:800}.brand span{color:var(--blue)}.nav a{color:var(--muted);text-decoration:none;font-size:14px;margin-left:18px}.nav a:hover{color:var(--blue)}main{max-width:1040px;margin:auto;padding:48px 24px 80px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;margin-bottom:48px}.eyebrow{color:var(--blue);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em}.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.08;margin:8px 0 16px;letter-spacing:-.03em}.lead{color:var(--muted);font-size:18px;max-width:650px}.objective{background:var(--blue-soft);border:1px solid #d5eafa;border-radius:var(--radius);padding:22px}.objective h3{margin:0 0 12px}.objective ul{margin:0;padding-left:20px}.section{margin:34px 0}.section h2{font-size:30px;line-height:1.2;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}.card h3{margin-top:0}.tag{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--muted);background:#fff}code,kbd{font-family:Consolas,Menlo,monospace;background:#2a2a2a;border:1px solid #4a4a4a;border-radius:6px;padding:1px 5px}pre{background:var(--code);color:#f8fafc;border-radius:12px;padding:16px;overflow:auto;line-height:1.5;font-size:14px}.note{background:var(--orange-soft);border:1px solid #f4d9bf;border-radius:var(--radius);padding:16px;color:#603800}.ok{background:var(--green-soft);border:1px solid #cfe6d9;border-radius:var(--radius);padding:16px}.warn{background:var(--red-soft);border:1px solid #f4c8c4;border-radius:var(--radius);padding:16px}.diagram{background:var(--card);border:1px dashed #cdd3da;border-radius:var(--radius);padding:18px}.node{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#252525;margin:8px}.node strong{color:var(--blue)}.indent{margin-left:28px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 12px;cursor:pointer}.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}.playground{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor{width:100%;min-height:320px;background:#0f141b;color:#eaf2ff;border:0;border-radius:12px;padding:16px;font-family:Consolas,Menlo,monospace;font-size:14px;resize:vertical}.preview{background:var(--card);border:1px solid var(--line);border-radius:12px;min-height:320px;overflow:hidden}.preview iframe{width:100%;height:100%;min-height:320px;border:0}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:10px;background:var(--blue);color:#fff;padding:10px 14px;cursor:pointer;font-weight:700}.btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--line)}.btn.green{background:var(--green)}.theme-toggle{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:7px 12px;cursor:pointer;margin-right:10px}.practice-block{margin:22px 0}.experiment-box{background:var(--blue-soft);border:1px solid #d5eafa;border-radius:var(--radius);padding:16px;margin-top:14px}.dark{--bg:#191919;--card:#202020;--text:#fff;--muted:rgba(255,255,255,.68);--line:rgba(255,255,255,.18);--blue:#5e9fe8;--blue-soft:rgba(94,159,232,.12);--green:#72bc8f;--green-soft:rgba(114,188,143,.12);--orange:#de9255;--orange-soft:rgba(222,146,85,.14);--red:#e97366;--red-soft:rgba(233,115,102,.13);--code:#0f141b}.dark code,.dark kbd{background:#2a2a2a;border-color:#4a4a4a;color:#f4f4f4}.dark pre{background:#0f141b;color:#f8fafc;border:1px solid rgba(255,255,255,.14)}.dark pre code{background:transparent;border:0;color:#f8fafc;padding:0}.dark .tab,.dark .choice,.dark .objective,.dark .card,.dark .output,.dark .preview,.dark .top{background:var(--card)}.dark .diagram{background:var(--card)}.dark .note{color:#ffd7ad}.dark .experiment-box{background:rgba(94,159,232,.12);border-color:rgba(94,159,232,.35)}.output{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;min-height:50px}.quiz-item{border-top:1px solid var(--line);padding:16px 0}.quiz-item:first-child{border-top:0}.choice{display:block;margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer}.choice.correct{border-color:var(--green);background:var(--green-soft)}.choice.wrong{border-color:var(--red);background:var(--red-soft)}.footer{margin-top:42px;color:var(--muted);font-size:14px}@media(max-width:800px){.hero,.grid,.playground{grid-template-columns:1fr}.nav{align-items:flex-start}.nav div:last-child{display:none}main{padding-top:32px}}
+
+    /* Dark-only polish */
+    .top,.card,.objective,.output,.preview,.tab,.choice{background:var(--card)}
+    .objective{border-color:rgba(94,159,232,.35)}
+    .note{color:#ffd7ad;border-color:rgba(222,146,85,.45)}
+    .diagram{background:#1b1b1b;border-color:rgba(255,255,255,.5)}
+    .diagram .node{background:#242424;color:#f3f3f3;border-color:rgba(255,255,255,.16)}
+    .diagram .node strong{color:#8ec2ff}
+    pre{background:#0f141b;border:1px solid rgba(255,255,255,.14);color:#f8fafc}
+    pre code{background:transparent!important;border:0!important;color:#f8fafc!important;padding:0!important}
+    code,kbd{background:#2a2a2a;border-color:#4a4a4a;color:#f4f4f4}
+    .preview iframe{background:#202020;color:#f7f7f7}
+    .btn.secondary{background:#2a2a2a;color:#f7f7f7;border:1px solid var(--line)}
+
+    /* Final dark layout refinement */
+    .section h2{margin-bottom:20px;letter-spacing:-.02em}
+    .grid{gap:24px}
+    .card{padding:26px;border-radius:14px;background:#202020;border:1px solid rgba(255,255,255,.16)}
+    .card h3{margin:10px 0 14px;line-height:1.25}
+    .card p{margin:0 0 14px;color:#f1f1f1}
+    .card ul{margin-top:8px}
+    .tag{display:inline-flex;align-items:center;width:auto;min-width:0;border:1px solid rgba(94,159,232,.42);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#9fcbff;background:rgba(94,159,232,.13);margin-bottom:10px;line-height:1.2}
+    .card .tag + h3{margin-top:0}
+    .card h3 code{font-size:20px;background:#111820!important;border:1px solid rgba(255,255,255,.18)!important;color:#ffffff!important;border-radius:8px;padding:4px 8px!important;display:inline-block}
+    .card pre{margin-top:14px;border-radius:12px;background:#0f141b!important;border:1px solid rgba(255,255,255,.14)!important}
+    .card pre code{font-size:14px;line-height:1.55;color:#f8fafc!important;background:transparent!important;border:0!important;padding:0!important}
+    .note,.ok,.warn,.experiment-box{border-radius:12px}
+    .diagram .node{margin:10px 0;padding:12px 14px;border-radius:10px;background:#222;color:#f1f1f1}
+    .diagram .indent{margin-left:24px;border-left:1px solid rgba(255,255,255,.16);padding-left:16px}
+
+    .practice-card{margin:22px 0;padding:28px}
+    .practice-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:18px}
+    .practice-head h3{margin:0 0 4px;font-size:22px}
+    .practice-head p{margin:0;color:var(--muted)}
+    .num{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border-radius:10px;background:var(--blue);color:#fff;font-weight:800;font-size:20px}
+    .mini-editor{width:100%;min-height:210px;background:#0f141b;color:#f8fafc;border:1px solid rgba(94,159,232,.35);border-radius:10px;padding:18px;font-family:Consolas,Menlo,monospace;font-size:14px;line-height:1.55;resize:vertical;margin:0 0 14px}
+    .mini-preview{display:block;width:100%;min-height:145px;background:#202020;color:#f7f7f7;border:0;border-left:4px solid var(--green);border-radius:0 10px 10px 0;margin:12px 0 16px}
+    .practice-card .controls{margin:0 0 12px}
+    .experiment-box{background:rgba(222,146,85,.18);border:1px solid rgba(222,146,85,.45);color:#ffd9b3}
+
+    .mini-preview[hidden]{display:none}
+    .experiment-box{padding:0;overflow:hidden}
+    .experiment-box summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#ffd9b3;min-height:44px;display:flex;align-items:center}
+    .experiment-box summary::-webkit-details-marker{display:none}
+    .experiment-box p{margin:0;padding:0 16px 16px;color:#ffe1c2}
+    .experiment-box:not([open]){background:rgba(222,146,85,.13)}
+    .experiment-box[open]{background:rgba(222,146,85,.20)}
+
+    .submit-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}
+    .submit-head h2{margin:2px 0 0;font-size:34px}
+    .submit-head p{margin:0;color:#d7d7d7;font-size:18px}
+    .submit-card{padding:30px 32px}
+    .submit-card h3{font-size:24px;margin-bottom:18px}
+    .submit-card ol{margin:0 0 22px 22px;padding-left:18px;font-size:18px;line-height:1.65}
+    .submit-card li::marker{font-weight:800;color:#fff}
+    .format-box{background:rgba(222,146,85,.20);border:1px solid rgba(222,146,85,.50);border-radius:10px;padding:16px 18px;color:#ffd9b3;font-size:17px;margin:18px 0}
+    .file-name{margin:18px 0 0!important;color:#d9d9d9!important}
+    .file-name code{color:#ff7aa8!important;background:#2a2a2a!important;border-color:#3a3a3a!important;font-weight:800}
+    @media(max-width:800px){.submit-head{display:block}.submit-head p{margin-top:8px}.submit-card ol{font-size:16px}}
+
+    .result-box{background:rgba(46,143,98,.22);border-left:4px solid var(--green);border-radius:0 10px 10px 0;margin:12px 0 16px;min-height:64px;overflow:hidden}
+    .result-box .placeholder{margin:0;background:transparent!important;border:0!important;color:#f8fafc!important;padding:16px 18px;font-family:Consolas,Menlo,monospace;font-size:14px;white-space:pre-wrap}
+    .result-box .mini-preview{margin:0;border-left:0;border-radius:0;background:#202020;min-height:145px}
+    .result-box .mini-preview[hidden]{display:none}
+    .experiment-box summary::before{content:'▶ ';color:#ffd9b3}
+    .experiment-box[open] summary::before{content:'▼ '}
+
+    .experiment-box summary{gap:6px}
+    .experiment-box summary::before{font-size:14px;line-height:1}
+  </style>
+</head>
+<body>
+  <header class="top"><nav class="nav"><div class="brand">Belajar<span>CSS</span></div><div><a href="#materi">Materi</a><a href="#praktikum">Praktikum</a><a href="#tugas">Tugas</a><a href="#pengumpulan">Pengumpulan</a></div></nav></header>
+  <main>
+    <section class="hero"><div><div class="eyebrow">Modul 10</div><h1>Responsive Design</h1><p class="lead">Pelajari cara membuat halaman web yang nyaman dibuka di berbagai ukuran layar melalui Mobile First, Desktop First, Media Query, Breakpoint, responsive image, responsive typography, dan responsive navbar.</p></div><aside class="objective"><h3>Tujuan pembelajaran</h3><ul><li>Memahami konsep responsive design.</li><li>Membedakan pendekatan Mobile First dan Desktop First.</li><li>Menggunakan media query untuk mengubah tampilan sesuai ukuran layar.</li><li>Menentukan breakpoint yang tepat.</li><li>Membuat gambar, typography, dan navbar yang responsif.</li></ul></aside></section>
+
+    <section id="materi" class="section"><h2>Konsep dasar: satu website untuk banyak ukuran layar</h2><div class="grid"><div class="card"><h3>Apa itu Responsive Design?</h3><p><strong>Responsive Design</strong> adalah teknik membuat tampilan website menyesuaikan ukuran layar perangkat, seperti HP, tablet, laptop, dan desktop.</p><p>Tujuannya agar konten tetap mudah dibaca, tombol mudah diklik, gambar tidak keluar layar, dan navigasi tetap nyaman digunakan.</p></div><div class="card"><h3>Kenapa responsive penting?</h3><p>Responsive design membantu website menjadi:</p><ul><li><strong>Nyaman di HP:</strong> mayoritas pengguna membuka web dari mobile.</li><li><strong>Fleksibel:</strong> layout menyesuaikan lebar layar.</li><li><strong>Profesional:</strong> tampilan tidak pecah di perangkat berbeda.</li><li><strong>Aksesibel:</strong> teks, gambar, dan menu tetap mudah digunakan.</li></ul></div></div></section>
+
+    <section class="section"><h2>Contoh dasar Responsive Design</h2><div class="card"><pre><code>/* Mobile First */
+.card {
+  width: 100%;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 50%;
+    font-size: 18px;
+  }
+}</code></pre><p class="note"><strong>Catatan:</strong> Mobile First berarti style dasar dibuat untuk layar kecil, lalu media query digunakan untuk layar yang lebih besar.</p></div></section>
+
+    <section class="section"><h2>Penjelasan lengkap materi penting</h2><div class="grid">
+      <div class="card"><span class="tag">Pendekatan</span><h3>Mobile First</h3><p>Mobile First berarti desain dimulai dari layar kecil terlebih dahulu. Setelah itu, tampilan diperluas untuk tablet dan desktop memakai <code>@media (min-width: ...)</code>.</p><pre><code>.container { grid-template-columns: 1fr; }
+@media (min-width: 768px) {
+  .container { grid-template-columns: 1fr 1fr; }
+}</code></pre></div>
+      <div class="card"><span class="tag">Pendekatan</span><h3>Desktop First</h3><p>Desktop First berarti desain dimulai dari layar besar, lalu disesuaikan ke layar kecil memakai <code>@media (max-width: ...)</code>.</p><pre><code>.container { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 768px) {
+  .container { grid-template-columns: 1fr; }
+}</code></pre></div>
+      <div class="card"><span class="tag">Aturan</span><h3>Media Query</h3><p>Media query adalah aturan CSS yang hanya aktif jika kondisi tertentu terpenuhi, misalnya lebar layar minimal atau maksimal.</p><pre><code>@media (max-width: 600px) {
+  h1 { font-size: 28px; }
+}</code></pre></div>
+      <div class="card"><span class="tag">Titik ubah</span><h3>Breakpoint</h3><p>Breakpoint adalah titik ukuran layar saat layout berubah. Contoh umum: 480px, 768px, 1024px, dan 1200px.</p><pre><code>@media (min-width: 1024px) {
+  main { max-width: 1100px; }
+}</code></pre></div>
+      <div class="card"><span class="tag">Gambar</span><h3>Responsive image</h3><p>Gambar responsif menyesuaikan lebar container dan tidak melebar keluar layar. Gunakan <code>max-width: 100%</code> dan <code>height: auto</code>.</p><pre><code>img {
+  max-width: 100%;
+  height: auto;
+}</code></pre></div>
+      <div class="card"><span class="tag">Teks</span><h3>Responsive typography</h3><p>Typography responsif membuat ukuran teks nyaman di layar kecil maupun besar. Bisa memakai media query atau fungsi <code>clamp()</code>.</p><pre><code>h1 {
+  font-size: clamp(32px, 6vw, 64px);
+}</code></pre></div>
+      <div class="card"><span class="tag">Menu</span><h3>Responsive navbar</h3><p>Navbar responsif menyesuaikan susunan menu. Di layar kecil menu bisa menjadi kolom, sedangkan di desktop menjadi baris.</p><pre><code>nav { display: flex; flex-direction: column; }
+@media (min-width: 768px) {
+  nav { flex-direction: row; }
+}</code></pre></div>
+      <div class="card"><span class="tag">Viewport</span><h3>Meta viewport</h3><p>Agar responsive design bekerja baik di perangkat mobile, HTML perlu memiliki meta viewport di bagian <code>&lt;head&gt;</code>.</p><pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre></div>
+    </div></section>
+
+    <section class="section"><h2>Peta konsep Responsive Design</h2><div class="diagram"><div class="node"><strong>Strategi:</strong> Mobile First memakai <code>min-width</code>, Desktop First memakai <code>max-width</code></div><div class="node"><strong>Media Query:</strong> aturan CSS aktif berdasarkan ukuran layar</div><div class="node"><strong>Breakpoint:</strong> titik perubahan layout seperti 768px atau 1024px</div><div class="node"><strong>Konten responsif:</strong> gambar, typography, dan navbar menyesuaikan perangkat</div></div></section>
+
+    <section id="praktikum" class="section"><h2>Praktikum bertahap</h2><p>Setiap praktikum langsung punya kode, tombol jalankan, output, dan eksperimen.</p>
+      <div class="practice-card card"><div class="practice-head"><span class="num">1</span><div><h3>Mobile First layout</h3><p>Buat layout satu kolom di mobile, lalu dua kolom di layar lebih besar.</p></div></div><textarea class="mini-editor" data-output="out1" spellcheck="false"><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile First</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background: #dbeafe;
+      color: #0f172a;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="card">Konten 1</div>
+    <div class="card">Konten 2</div>
+  </div>
+</body>
+</html></textarea><div class="controls"><button class="btn run-mini">▶ Jalankan</button><button class="btn secondary reset-mini">Reset</button></div><div class="result-box" id="box1"><pre class="placeholder">Output akan muncul di sini.</pre><iframe class="mini-preview" id="out1" title="Hasil praktikum 1" hidden></iframe></div><details class="experiment-box"><summary>Eksperimen</summary><p>Ubah breakpoint <code>768px</code> menjadi <code>500px</code>. Amati kapan layout berubah menjadi dua kolom.</p></details></div>
+
+      <div class="practice-card card"><div class="practice-head"><span class="num">2</span><div><h3>Desktop First layout</h3><p>Buat layout tiga kolom di desktop, lalu satu kolom di mobile.</p></div></div><textarea class="mini-editor" data-output="out2" spellcheck="false"><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desktop First</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background: #dcfce7;
+      color: #052e16;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="card">A</div>
+    <div class="card">B</div>
+    <div class="card">C</div>
+  </div>
+</body>
+</html></textarea><div class="controls"><button class="btn run-mini">▶ Jalankan</button><button class="btn secondary reset-mini">Reset</button></div><div class="result-box" id="box2"><pre class="placeholder">Output akan muncul di sini.</pre><iframe class="mini-preview" id="out2" title="Hasil praktikum 2" hidden></iframe></div><details class="experiment-box"><summary>Eksperimen</summary><p>Ubah <code>max-width: 700px</code> menjadi <code>900px</code>. Jelaskan perbedaan Desktop First dengan Mobile First.</p></details></div>
+
+      <div class="practice-card card"><div class="practice-head"><span class="num">3</span><div><h3>Responsive image dan typography</h3><p>Buat gambar dan ukuran teks menyesuaikan layar.</p></div></div><textarea class="mini-editor" data-output="out3" spellcheck="false"><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Media</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 56px);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Responsive Image</h1>
+  <img src="https://picsum.photos/900/420" alt="Contoh gambar responsif">
+  <p>Gambar tidak akan melebar keluar layar.</p>
+</body>
+</html></textarea><div class="controls"><button class="btn run-mini">▶ Jalankan</button><button class="btn secondary reset-mini">Reset</button></div><div class="result-box" id="box3"><pre class="placeholder">Output akan muncul di sini.</pre><iframe class="mini-preview" id="out3" title="Hasil praktikum 3" hidden></iframe></div><details class="experiment-box"><summary>Eksperimen</summary><p>Hapus <code>max-width: 100%</code> pada gambar. Amati potensi gambar melebar keluar area tampilan.</p></details></div>
+
+      <div class="practice-card card"><div class="practice-head"><span class="num">4</span><div><h3>Responsive navbar</h3><p>Buat navbar vertikal di mobile dan horizontal di desktop.</p></div></div><textarea class="mini-editor" data-output="out4" spellcheck="false"><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <style>
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #0f172a;
+      padding: 14px;
+      font-family: Arial, sans-serif;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      background: #2563eb;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    @media (min-width: 768px) {
+      nav {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Materi</a>
+    <a href="#">Tugas</a>
+    <a href="#">Kontak</a>
+  </nav>
+</body>
+</html></textarea><div class="controls"><button class="btn run-mini">▶ Jalankan</button><button class="btn secondary reset-mini">Reset</button></div><div class="result-box" id="box4"><pre class="placeholder">Output akan muncul di sini.</pre><iframe class="mini-preview" id="out4" title="Hasil praktikum 4" hidden></iframe></div><details class="experiment-box"><summary>Eksperimen</summary><p>Ubah <code>justify-content</code> menjadi <code>center</code> atau <code>space-between</code>. Amati posisi menu pada tampilan desktop.</p></details></div>
+    </section>
+
+    <section id="tugas" class="section"><h2>Tugas: buat halaman responsive landing page</h2><div class="card"><p>Buat satu file bernama <code>modul-10-responsive-design.html</code> dengan ketentuan berikut:</p><ol><li>Menggunakan struktur HTML lengkap dan meta viewport.</li><li>Menerapkan pendekatan Mobile First atau Desktop First.</li><li>Menggunakan minimal satu media query.</li><li>Menentukan minimal satu breakpoint.</li><li>Membuat gambar responsif dengan <code>max-width: 100%</code> dan <code>height: auto</code>.</li><li>Menggunakan responsive typography, misalnya <code>clamp()</code> atau perubahan ukuran teks di media query.</li><li>Membuat responsive navbar yang berubah susunan antara mobile dan desktop.</li><li>Menulis keterangan singkat strategi responsive yang digunakan.</li></ol><div class="note"><strong>Tantangan tambahan:</strong> buat layout card yang satu kolom di mobile, dua kolom di tablet, dan tiga kolom di desktop.</div></div></section>
+
+    <section id="pengumpulan" class="section submit-section"><div class="submit-head"><div><div class="eyebrow">Pengumpulan hasil belajar</div><h2>Buat satu laporan PDF</h2></div><p>Gabungkan bukti praktikum dan tugas.</p></div><div class="card submit-card"><h3>Isi laporan</h3><ol><li><strong>Identitas:</strong> nama lengkap, asal sekolah, kelas/jurusan, dan tanggal pengerjaan.</li><li><strong>Praktikum 1–4:</strong> screenshot kode, screenshot hasil, dan jawaban eksperimen.</li><li><strong>Tugas akhir:</strong> file/code halaman demo Responsive Design, screenshot hasil, serta keterangan wajib.</li><li><strong>Kesimpulan:</strong> tulis 3–5 kalimat tentang manfaat teks dan konten, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>, heading, paragraph, dan comment.</li></ol><div class="format-box"><strong>Responsive Designat keterangan setiap bagian:</strong><br>Tujuan praktik • tag yang digunakan • proses pembuatan • hasil yang muncul • kendala/perbaikan.</div><p class="file-name"><strong>Nama file:</strong> <code>NamaLengkap_HTML05_Responsive Design.pdf</code></p></div></section>
+
+    <p class="footer">Modul 10 — Responsive Design. Belajar mengatur judul, paragraf, penekanan teks, baris baru, dan garis pemisah.</p>
+  </main>
+<script>
+const previewStyle=`<style>body{background:#202020!important;color:#f7f7f7!important;font-family:Arial,Helvetica,sans-serif;line-height:1.6;padding:18px;margin:0}h1,h2,h3,p{color:#f7f7f7}code{background:#2a2a2a;color:#f4f4f4;padding:2px 5px;border-radius:5px}</style>`;
+function renderMini(textarea){
+  const frame=document.getElementById(textarea.dataset.output);
+  frame.srcdoc=textarea.value.replace('</head>', previewStyle+'</head>');
+}
+document.querySelectorAll('.mini-editor').forEach(editor=>{
+  editor.dataset.initial=editor.value;
+  const card=editor.closest('.practice-card');
+  const frame=document.getElementById(editor.dataset.output);
+  const placeholder=card.querySelector('.placeholder');
+  card.querySelector('.run-mini').onclick=()=>{renderMini(editor);frame.hidden=false;placeholder.hidden=true};
+  card.querySelector('.reset-mini').onclick=()=>{editor.value=editor.dataset.initial;frame.hidden=true;frame.srcdoc='';placeholder.hidden=false};
+});
+</script>
+</body>
+</html>
