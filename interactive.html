@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Display — Coba Sendiri</title>
+<style>
+  :root {
+    --text: #2C2C2B;
+    --text-secondary: #7D7A75;
+    --canvas: #FFFFFF;
+    --surface: #F9F8F7;
+    --surface-2: #F0EFED;
+    --border: #E6E5E3;
+    --blue: #2783DE;
+    --blue-soft: #E5F2FC;
+    --green: #46A171;
+    --green-soft: #E8F1EC;
+    --orange: #D5803B;
+    --orange-soft: #FBEBDE;
+    --red: #E56458;
+    --red-soft: #FCE9E7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--canvas);
+    color: var(--text);
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 36px 28px 56px; }
+  header { margin-bottom: 28px; }
+  h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  section { margin-bottom: 36px; }
+  section:last-child { margin-bottom: 0; }
+  .section-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  h2 { font-size: 16px; margin: 0; }
+  .section-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 14px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    font-family: Menlo, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 16px;
+    min-height: 44px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab:hover { background: var(--surface-2); }
+  .tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .code-pill {
+    display: inline-block;
+    font-family: Menlo, Consolas, monospace;
+    font-size: 13px;
+    background: var(--surface-2);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+  }
+  .code-pill b { color: var(--blue); font-weight: 700; }
+
+  .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 18px; min-height: 42px; }
+
+  .stage-frame { border: 1px dashed var(--border); border-radius: 10px; background: var(--surface); padding: 20px; min-height: 130px; }
+
+  .flow { margin: 0; font-size: 15px; line-height: 2.1; color: var(--text); }
+
+  .box {
+    font-family: Menlo, Consolas, monospace; font-weight: 700; font-size: 13px;
+    background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue);
+    border-radius: 6px; padding: 3px 10px; transition: opacity .15s;
+  }
+
+  .flow.mode-block .box { display: block; margin: 8px 0; padding: 10px 14px; }
+  .flow.mode-inline .box { display: inline; }
+  .flow.mode-inline-block .box {
+    display: inline-block; width: 96px; height: 46px; line-height: 44px;
+    text-align: center; padding: 0; margin: 4px 4px; vertical-align: middle;
+  }
+  .flow.mode-none .box {
+    display: inline-block; width: 96px; height: 46px; line-height: 44px;
+    text-align: center; padding: 0; margin: 4px 4px; vertical-align: middle; cursor: pointer;
+  }
+  .flow.mode-none .box:hover { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .flow.mode-none .box.hidden { display: none; }
+
+  .none-hint { display: none; font-size: 12.5px; color: var(--red); margin-top: 10px; }
+
+  .facts-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .fact { font-size: 12px; color: var(--text-secondary); background: var(--surface-2); border-radius: 6px; padding: 5px 10px; }
+  .fact b { color: var(--text); font-weight: 700; }
+
+  /* Section 2: flex/grid container demo */
+  .flow2 { margin: 0; font-size: 15px; line-height: 2.3; color: var(--text); }
+  .container-box {
+    background: var(--green-soft);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 8px;
+    gap: 6px;
+    vertical-align: middle;
+  }
+  .item {
+    font-family: Menlo, Consolas, monospace; font-weight: 700; font-size: 12px;
+    background: #fff; color: var(--green); border: 1px solid var(--green);
+    border-radius: 6px; width: 34px; height: 34px; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .flow2.mode-flex .container-box,
+  .flow2.mode-inline-flex .container-box { display: flex; flex-wrap: wrap; }
+  .flow2.mode-flex .container-box { display: flex; }
+  .flow2.mode-inline-flex .container-box { display: inline-flex; }
+  .flow2.mode-grid .container-box { display: grid; grid-template-columns: repeat(3, 34px); }
+  .flow2.mode-inline-grid .container-box { display: inline-grid; grid-template-columns: repeat(3, 34px); }
+
+  /* Section 3: static reference */
+  .ref-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 560px) { .ref-grid { grid-template-columns: 1fr; } }
+  .ref-card {
+    border: 1px solid var(--border); border-radius: 10px; background: var(--surface);
+    padding: 14px 16px;
+  }
+  .ref-card code {
+    display: inline-block; font-family: Menlo, Consolas, monospace; font-size: 12.5px;
+    font-weight: 700; color: var(--orange); background: var(--orange-soft);
+    border-radius: 5px; padding: 2px 7px; margin-bottom: 6px;
+  }
+  .ref-card p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .ref-note { font-size: 12.5px; color: var(--text-secondary); margin: 14px 0 0; line-height: 1.5; }
+
+  @media (max-width: 560px) { .wrap { padding: 24px 16px 40px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>CSS Display — Coba Sendiri</h1>
+    <p>Klik tombol untuk melihat langsung efek setiap nilai <code>display</code> pada elemen</p>
+  </header>
+
+  <section>
+    <div class="section-head"><h2>1. Nilai dasar</h2></div>
+    <p class="section-sub">Mengatur bagaimana elemen itu sendiri berbaris di antara elemen lain.</p>
+
+    <div class="tabs" role="tablist" id="tabs1">
+      <button class="tab active" data-mode="block">block</button>
+      <button class="tab" data-mode="inline">inline</button>
+      <button class="tab" data-mode="inline-block">inline-block</button>
+      <button class="tab" data-mode="none">none</button>
+    </div>
+
+    <div class="code-pill">.kotak { display: <b id="codeLine1">block</b>; }</div>
+    <p class="desc" id="descText1"></p>
+
+    <div class="stage-frame">
+      <p class="flow mode-block" id="flow1">
+        Ini teks sebelum <span class="box">Kotak A</span> lalu ada <span class="box">Kotak B</span> kemudian <span class="box">Kotak C</span> dan ini teks setelah kotak-kotak.
+      </p>
+      <div class="none-hint" id="noneHint">Klik salah satu kotak untuk menyembunyikannya (display: none). Klik lagi tombol "none" untuk menampilkan semua.</div>
+    </div>
+
+    <div class="facts-row" id="factsRow1"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>2. Flexbox &amp; Grid</h2></div>
+    <p class="section-sub">Mengatur bagaimana elemen menata anak-anaknya, sekaligus bagaimana elemen itu sendiri berbaris (seperti block/inline).</p>
+
+    <div class="tabs" role="tablist" id="tabs2">
+      <button class="tab active" data-mode="flex">flex</button>
+      <button class="tab" data-mode="inline-flex">inline-flex</button>
+      <button class="tab" data-mode="grid">grid</button>
+      <button class="tab" data-mode="inline-grid">inline-grid</button>
+    </div>
+
+    <div class="code-pill">.kontainer { display: <b id="codeLine2">flex</b>; }</div>
+    <p class="desc" id="descText2"></p>
+
+    <div class="stage-frame">
+      <p class="flow2 mode-flex" id="flow2">
+        Teks sebelum kontainer <span class="container-box"><span class="item">1</span><span class="item">2</span><span class="item">3</span><span class="item">4</span></span> lalu teks setelah kontainer.
+      </p>
+    </div>
+
+    <div class="facts-row" id="factsRow2"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>3. Nilai lainnya (referensi)</h2></div>
+    <p class="section-sub">Lebih jarang dipakai, tapi tetap bagian dari <code>display</code>.</p>
+
+    <div class="ref-grid">
+      <div class="ref-card"><code>list-item</code><p>Membuat elemen berperilaku seperti item &lt;li&gt;, lengkap dengan bullet/nomor di depannya.</p></div>
+      <div class="ref-card"><code>table</code> &nbsp;<code>table-row</code> &nbsp;<code>table-cell</code><p>Membuat elemen biasa berperilaku seperti &lt;table&gt;, &lt;tr&gt;, &lt;td&gt; tanpa perlu tag tabel asli.</p></div>
+      <div class="ref-card"><code>contents</code><p>Elemen "dihilangkan" secara visual, tapi anak-anaknya tetap tampil seolah langsung berada di dalam parent-nya.</p></div>
+      <div class="ref-card"><code>flow-root</code><p>Berlaku seperti block, tapi juga membungkus float/margin anaknya sendiri agar tidak bocor ke elemen luar.</p></div>
+    </div>
+
+    <p class="ref-note">Selain nilai tata letak di atas, <code style="background:var(--surface-2);color:var(--text);padding:2px 6px;border-radius:5px;font-family:Menlo,Consolas,monospace;font-size:12.5px;">display</code> juga menerima nilai global seperti <b>inherit</b> (ikut nilai parent), <b>initial</b> (kembali ke default), <b>unset</b>, dan <b>revert</b> — ini berlaku untuk semua properti CSS, bukan cuma display.</p>
+  </section>
+</div>
+
+<script>
+  // Section 1: block / inline / inline-block / none
+  (function () {
+    const tabs = document.querySelectorAll('#tabs1 .tab');
+    const flow = document.getElementById('flow1');
+    const codeLine = document.getElementById('codeLine1');
+    const descText = document.getElementById('descText1');
+    const noneHint = document.getElementById('noneHint');
+    const factsRow = document.getElementById('factsRow1');
+    const boxes = flow.querySelectorAll('.box');
+
+    const CONTENT = {
+      'block': {
+        desc: 'Setiap kotak menjadi elemen block: melebar penuh dan selalu pindah ke baris barunya sendiri, sehingga memutus alur teks di sekitarnya.',
+        facts: [['Mulai baris baru?', 'Ya'], ['Bisa atur width/height?', 'Ya'], ['Ambil ruang di layout?', 'Ya']]
+      },
+      'inline': {
+        desc: 'Kotak menjadi elemen inline: mengikuti alur teks seperti kata biasa, tidak bisa diberi lebar/tinggi/margin vertikal, dan tidak memutus baris.',
+        facts: [['Mulai baris baru?', 'Tidak'], ['Bisa atur width/height?', 'Tidak'], ['Ambil ruang di layout?', 'Ya']]
+      },
+      'inline-block': {
+        desc: 'Kotak tetap sejajar dengan teks seperti inline, tapi sekarang bisa diberi lebar, tinggi, dan margin seperti block.',
+        facts: [['Mulai baris baru?', 'Tidak'], ['Bisa atur width/height?', 'Ya'], ['Ambil ruang di layout?', 'Ya']]
+      },
+      'none': {
+        desc: 'Klik salah satu kotak di bawah untuk menghapusnya total dari tampilan dan layout — ruang yang ditempatinya ikut hilang.',
+        facts: [['Mulai baris baru?', '—'], ['Bisa atur width/height?', '—'], ['Ambil ruang di layout?', 'Tidak (saat disembunyikan)']]
+      }
+    };
+
+    let currentMode = 'block';
+
+    function render(mode) {
+      currentMode = mode;
+      flow.className = 'flow mode-' + mode;
+      codeLine.textContent = mode;
+      descText.textContent = CONTENT[mode].desc;
+      noneHint.style.display = mode === 'none' ? 'block' : 'none';
+      factsRow.innerHTML = CONTENT[mode].facts.map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+      if (mode !== 'none') boxes.forEach(b => b.classList.remove('hidden'));
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      render(tab.dataset.mode);
+    }));
+
+    boxes.forEach(box => box.addEventListener('click', () => {
+      if (currentMode === 'none') box.classList.toggle('hidden');
+    }));
+
+    render('block');
+  })();
+
+  // Section 2: flex / inline-flex / grid / inline-grid
+  (function () {
+    const tabs = document.querySelectorAll('#tabs2 .tab');
+    const flow2 = document.getElementById('flow2');
+    const codeLine2 = document.getElementById('codeLine2');
+    const descText2 = document.getElementById('descText2');
+    const factsRow2 = document.getElementById('factsRow2');
+
+    const CONTENT2 = {
+      'flex': {
+        desc: 'Kontainer menata anak-anaknya dalam satu baris fleksibel (flexbox), dan kontainer sendiri melebar penuh + pindah baris baru, seperti block.',
+        facts: [['Kontainer mulai baris baru?', 'Ya'], ['Anak diatur otomatis?', 'Ya (flex)'], ['Lebar kontainer', 'Penuh']]
+      },
+      'inline-flex': {
+        desc: 'Sama seperti flex untuk anak-anaknya, tapi kontainer sendiri hanya selebar isinya dan bisa sejajar dengan teks di sekitarnya, seperti inline.',
+        facts: [['Kontainer mulai baris baru?', 'Tidak'], ['Anak diatur otomatis?', 'Ya (flex)'], ['Lebar kontainer', 'Sesuai isi']]
+      },
+      'grid': {
+        desc: 'Kontainer menata anak-anaknya dalam grid berkolom, dan kontainer sendiri melebar penuh + pindah baris baru, seperti block.',
+        facts: [['Kontainer mulai baris baru?', 'Ya'], ['Anak diatur otomatis?', 'Ya (grid)'], ['Lebar kontainer', 'Penuh']]
+      },
+      'inline-grid': {
+        desc: 'Sama seperti grid untuk anak-anaknya, tapi kontainer sendiri hanya selebar isinya dan bisa sejajar dengan teks di sekitarnya, seperti inline.',
+        facts: [['Kontainer mulai baris baru?', 'Tidak'], ['Anak diatur otomatis?', 'Ya (grid)'], ['Lebar kontainer', 'Sesuai isi']]
+      }
+    };
+
+    function render(mode) {
+      flow2.className = 'flow2 mode-' + mode;
+      codeLine2.textContent = mode;
+      descText2.textContent = CONTENT2[mode].desc;
+      factsRow2.innerHTML = CONTENT2[mode].facts.map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      render(tab.dataset.mode);
+    }));
+
+    render('flex');
+  })();
+</script>
+</body>
+</html>
