@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jenis-jenis Flexbox — Coba Sendiri</title>
+<style>
+  :root {
+    --text: #2C2C2B;
+    --text-secondary: #7D7A75;
+    --canvas: #FFFFFF;
+    --surface: #F9F8F7;
+    --surface-2: #F0EFED;
+    --border: #E6E5E3;
+    --blue: #2783DE;
+    --blue-soft: #E5F2FC;
+    --green: #46A171;
+    --green-soft: #E8F1EC;
+    --orange: #D5803B;
+    --orange-soft: #FBEBDE;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--canvas);
+    color: var(--text);
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 36px 28px 56px; }
+  header { margin-bottom: 10px; }
+  h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  .intro {
+    display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 32px;
+  }
+  .intro-card {
+    flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface); padding: 12px 14px;
+  }
+  .intro-card b { font-size: 13px; }
+  .intro-card p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+
+  section { margin-bottom: 38px; }
+  section:last-child { margin-bottom: 0; }
+  .section-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  h2 { font-size: 16px; margin: 0; }
+  .section-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 14px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    font-family: Menlo, Consolas, monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; min-height: 40px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab:hover { background: var(--surface-2); }
+  .tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .code-pill {
+    display: inline-block; font-family: Menlo, Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); color: var(--text); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;
+  }
+  .code-pill b { color: var(--blue); font-weight: 700; }
+
+  .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 18px; min-height: 42px; }
+
+  .stage-frame {
+    border: 1px dashed var(--border); border-radius: 10px; background: var(--surface);
+    padding: 20px; overflow: hidden;
+  }
+
+  .item {
+    font-family: Menlo, Consolas, monospace; font-weight: 700; font-size: 13px;
+    background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Section 1: flex-direction */
+  #stage1 { display: flex; gap: 8px; min-height: 60px; }
+  #stage1 .item { width: 64px; height: 48px; }
+
+  /* Section 2: flex-wrap */
+  #stage2 { display: flex; gap: 8px; max-width: 420px; overflow-x: auto; }
+  #stage2 .item { width: 92px; height: 40px; flex-shrink: 0; }
+
+  /* Section 3: justify-content */
+  #stage3 { display: flex; gap: 8px; width: 100%; }
+  #stage3 .item { width: 60px; height: 48px; }
+
+  /* Section 4: align-items */
+  #stage4 { display: flex; gap: 10px; height: 170px; }
+  #stage4 .item { width: 56px; }
+
+  /* Section 5: item properties */
+  #stage5 { display: flex; gap: 8px; }
+  #stage5 .item { width: 70px; height: 48px; }
+  #stage5 .item.grow { flex-grow: 1; background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  #stage5 .item.order-first { order: -1; }
+
+  .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .toggle {
+    font-family: Menlo, Consolas, monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; min-height: 40px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+  }
+  .toggle.on { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+
+  .facts-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .fact { font-size: 12px; color: var(--text-secondary); background: var(--surface-2); border-radius: 6px; padding: 5px 10px; }
+  .fact b { color: var(--text); font-weight: 700; }
+
+  @media (max-width: 560px) { .wrap { padding: 24px 16px 40px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Jenis-jenis Flexbox</h1>
+    <p>Klik tombol pada tiap bagian untuk melihat langsung efeknya</p>
+  </header>
+
+  <div class="intro">
+    <div class="intro-card"><b>Properti Kontainer</b><p>Diatur pada elemen <code>display: flex</code> itu sendiri: flex-direction, flex-wrap, justify-content, align-items.</p></div>
+    <div class="intro-card"><b>Properti Item</b><p>Diatur pada anak-anak di dalam kontainer flex: order, flex-grow, flex-shrink, flex-basis, align-self.</p></div>
+  </div>
+
+  <section>
+    <div class="section-head"><h2>1. flex-direction</h2></div>
+    <p class="section-sub">Menentukan arah sumbu utama tempat item disusun.</p>
+    <div class="tabs" id="tabs1">
+      <button class="tab active" data-mode="row">row</button>
+      <button class="tab" data-mode="row-reverse">row-reverse</button>
+      <button class="tab" data-mode="column">column</button>
+      <button class="tab" data-mode="column-reverse">column-reverse</button>
+    </div>
+    <div class="code-pill">.kontainer { flex-direction: <b id="code1">row</b>; }</div>
+    <p class="desc" id="desc1"></p>
+    <div class="stage-frame"><div id="stage1">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div>
+    </div></div>
+    <div class="facts-row" id="facts1"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>2. flex-wrap</h2></div>
+    <p class="section-sub">Menentukan apakah item boleh pindah ke baris baru saat kontainer tidak cukup lebar.</p>
+    <div class="tabs" id="tabs2">
+      <button class="tab active" data-mode="nowrap">nowrap</button>
+      <button class="tab" data-mode="wrap">wrap</button>
+      <button class="tab" data-mode="wrap-reverse">wrap-reverse</button>
+    </div>
+    <div class="code-pill">.kontainer { flex-wrap: <b id="code2">nowrap</b>; }</div>
+    <p class="desc" id="desc2"></p>
+    <div class="stage-frame"><div id="stage2">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts2"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>3. justify-content</h2></div>
+    <p class="section-sub">Mengatur penempatan item &amp; sisa ruang kosong sepanjang sumbu utama.</p>
+    <div class="tabs" id="tabs3">
+      <button class="tab active" data-mode="flex-start">flex-start</button>
+      <button class="tab" data-mode="flex-end">flex-end</button>
+      <button class="tab" data-mode="center">center</button>
+      <button class="tab" data-mode="space-between">space-between</button>
+      <button class="tab" data-mode="space-around">space-around</button>
+      <button class="tab" data-mode="space-evenly">space-evenly</button>
+    </div>
+    <div class="code-pill">.kontainer { justify-content: <b id="code3">flex-start</b>; }</div>
+    <p class="desc" id="desc3"></p>
+    <div class="stage-frame"><div id="stage3">
+      <div class="item">A</div><div class="item">B</div><div class="item">C</div><div class="item">D</div>
+    </div></div>
+    <div class="facts-row" id="facts3"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>4. align-items</h2></div>
+    <p class="section-sub">Mengatur penempatan item sepanjang sumbu silang (tegak lurus sumbu utama).</p>
+    <div class="tabs" id="tabs4">
+      <button class="tab active" data-mode="stretch">stretch</button>
+      <button class="tab" data-mode="flex-start">flex-start</button>
+      <button class="tab" data-mode="flex-end">flex-end</button>
+      <button class="tab" data-mode="center">center</button>
+      <button class="tab" data-mode="baseline">baseline</button>
+    </div>
+    <div class="code-pill">.kontainer { align-items: <b id="code4">stretch</b>; }</div>
+    <p class="desc" id="desc4"></p>
+    <div class="stage-frame"><div id="stage4">
+      <div class="item" style="padding:8px 0;font-size:13px;">1</div>
+      <div class="item" style="padding:22px 0;font-size:22px;">2</div>
+      <div class="item" style="padding:4px 0;font-size:13px;">3</div>
+      <div class="item" style="padding:30px 0;font-size:28px;">4</div>
+    </div></div>
+    <div class="facts-row" id="facts4"></div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>5. Properti item: order &amp; flex-grow</h2></div>
+    <p class="section-sub">Diatur langsung pada satu item, bukan pada kontainernya.</p>
+    <div class="toggle-row">
+      <button class="toggle" id="toggleOrder">order: Kotak B jadi pertama</button>
+      <button class="toggle" id="toggleGrow">flex-grow: Kotak B melebar</button>
+    </div>
+    <div class="code-pill">.kotak-b { <b id="code5">/* default */</b> }</div>
+    <div class="stage-frame"><div id="stage5">
+      <div class="item">A</div><div class="item" id="boxB">B</div><div class="item">C</div>
+    </div></div>
+    <div class="facts-row" id="facts5"></div>
+  </section>
+</div>
+
+<script>
+  function makeTabs(tabsId, stageId, contentMap, codeId, descId, factsId, cssProp) {
+    const tabs = document.querySelectorAll('#' + tabsId + ' .tab');
+    const stage = document.getElementById(stageId);
+    const code = document.getElementById(codeId);
+    const desc = document.getElementById(descId);
+    const facts = document.getElementById(factsId);
+
+    function render(mode) {
+      stage.style[cssProp] = mode;
+      code.textContent = mode;
+      desc.textContent = contentMap[mode].desc;
+      facts.innerHTML = contentMap[mode].facts.map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      render(tab.dataset.mode);
+    }));
+
+    const initial = tabs[0].dataset.mode;
+    render(initial);
+  }
+
+  makeTabs('tabs1', 'stage1', {
+    'row': { desc: 'Item disusun berjajar horizontal dari kiri ke kanan (arah default).', facts: [['Sumbu utama', 'Horizontal'], ['Item pertama di', 'Kiri']] },
+    'row-reverse': { desc: 'Item tetap horizontal, tapi urutannya dibalik dari kanan ke kiri.', facts: [['Sumbu utama', 'Horizontal (dibalik)'], ['Item pertama di', 'Kanan']] },
+    'column': { desc: 'Item disusun bertumpuk vertikal dari atas ke bawah.', facts: [['Sumbu utama', 'Vertikal'], ['Item pertama di', 'Atas']] },
+    'column-reverse': { desc: 'Item tetap vertikal, tapi urutannya dibalik dari bawah ke atas.', facts: [['Sumbu utama', 'Vertikal (dibalik)'], ['Item pertama di', 'Bawah']] }
+  }, 'code1', 'desc1', 'facts1', 'flexDirection');
+
+  makeTabs('tabs2', 'stage2', {
+    'nowrap': { desc: 'Semua item dipaksa tetap satu baris; kalau kepanjangan, kontainer akan meluber (geser untuk melihat sisanya) — ini adalah nilai default.', facts: [['Pindah baris?', 'Tidak'], ['Kalau kepanjangan', 'Meluber / bisa digeser']] },
+    'wrap': { desc: 'Item yang tidak muat otomatis pindah ke baris baru di bawahnya.', facts: [['Pindah baris?', 'Ya'], ['Urutan baris', 'Atas ke bawah']] },
+    'wrap-reverse': { desc: 'Sama seperti wrap, item tetap urut, tapi baris barunya ditumpuk mulai dari atas ke bawah secara terbalik.', facts: [['Pindah baris?', 'Ya'], ['Urutan baris', 'Bawah ke atas']] }
+  }, 'code2', 'desc2', 'facts2', 'flexWrap');
+
+  makeTabs('tabs3', 'stage3', {
+    'flex-start': { desc: 'Semua item menempel di awal sumbu utama (kiri); sisa ruang kosong berkumpul di akhir.', facts: [['Ruang kosong di', 'Akhir (kanan)']] },
+    'flex-end': { desc: 'Semua item menempel di akhir sumbu utama (kanan); sisa ruang kosong berkumpul di awal.', facts: [['Ruang kosong di', 'Awal (kiri)']] },
+    'center': { desc: 'Item dikumpulkan di tengah; ruang kosong terbagi rata di kedua sisi.', facts: [['Ruang kosong di', 'Kiri & kanan (rata)']] },
+    'space-between': { desc: 'Item pertama & terakhir menempel di ujung; sisa ruang dibagi rata hanya di antara item.', facts: [['Ruang kosong di', 'Di antara item saja']] },
+    'space-around': { desc: 'Setiap item mendapat ruang kosong sama besar di kedua sisinya, jadi jarak di ujung terasa setengah dari jarak antar item.', facts: [['Ruang kosong di', 'Sekeliling tiap item']] },
+    'space-evenly': { desc: 'Semua jarak — termasuk di ujung kiri dan kanan — dibuat benar-benar sama besar.', facts: [['Ruang kosong di', 'Rata sama semua']] }
+  }, 'code3', 'desc3', 'facts3', 'justifyContent');
+
+  makeTabs('tabs4', 'stage4', {
+    'stretch': { desc: 'Semua item otomatis melebar mengikuti tinggi kontainer, walau tinggi kontennya berbeda-beda (nilai default).', facts: [['Tinggi item', 'Mengikuti kontainer'], ['Konten asli diabaikan?', 'Ya']] },
+    'flex-start': { desc: 'Setiap item hanya setinggi kontennya sendiri dan menempel ke bagian atas kontainer.', facts: [['Posisi', 'Atas'], ['Tinggi item', 'Sesuai konten']] },
+    'flex-end': { desc: 'Setiap item hanya setinggi kontennya sendiri dan menempel ke bagian bawah kontainer.', facts: [['Posisi', 'Bawah'], ['Tinggi item', 'Sesuai konten']] },
+    'center': { desc: 'Setiap item hanya setinggi kontennya sendiri dan diletakkan di tengah kontainer secara vertikal.', facts: [['Posisi', 'Tengah'], ['Tinggi item', 'Sesuai konten']] },
+    'baseline': { desc: 'Item disejajarkan berdasarkan garis dasar (baseline) teksnya, bukan berdasarkan atas/bawah/tengah kotak — perhatikan angka "2" dan "4" yang lebih besar tetap sejajar teksnya dengan yang lain.', facts: [['Acuan sejajar', 'Baseline teks'], ['Tinggi item', 'Sesuai konten']] }
+  }, 'code4', 'desc4', 'facts4', 'alignItems');
+
+  // Section 5: order & flex-grow toggles
+  (function () {
+    const boxB = document.getElementById('boxB');
+    const toggleOrder = document.getElementById('toggleOrder');
+    const toggleGrow = document.getElementById('toggleGrow');
+    const code5 = document.getElementById('code5');
+    const facts5 = document.getElementById('facts5');
+    let orderOn = false, growOn = false;
+
+    function render() {
+      boxB.classList.toggle('order-first', orderOn);
+      boxB.classList.toggle('grow', growOn);
+      toggleOrder.classList.toggle('on', orderOn);
+      toggleGrow.classList.toggle('on', growOn);
+      const lines = [];
+      if (orderOn) lines.push('order: -1;');
+      if (growOn) lines.push('flex-grow: 1;');
+      code5.textContent = lines.length ? lines.join(' ') : '/* default */';
+      facts5.innerHTML = [
+        ['Urutan Kotak B', orderOn ? 'Pertama' : 'Sesuai HTML (ke-2)'],
+        ['Lebar Kotak B', growOn ? 'Mengisi sisa ruang' : 'Tetap (70px)']
+      ].map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+    }
+
+    toggleOrder.addEventListener('click', () => { orderOn = !orderOn; render(); });
+    toggleGrow.addEventListener('click', () => { growOn = !growOn; render(); });
+    render();
+  })();
+</script>
+</body>
+</html>

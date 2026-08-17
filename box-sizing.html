@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>box-sizing — Coba Sendiri</title>
+<style>
+  :root {
+    --text: #2C2C2B;
+    --text-secondary: #7D7A75;
+    --canvas: #FFFFFF;
+    --surface: #F9F8F7;
+    --surface-2: #F0EFED;
+    --border: #E6E5E3;
+    --blue: #2783DE;
+    --blue-soft: #E5F2FC;
+    --green: #46A171;
+    --green-soft: #E8F1EC;
+    --orange: #D5803B;
+    --orange-soft: #FBEBDE;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--canvas);
+    color: var(--text);
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 36px 28px 48px; }
+  header { margin-bottom: 22px; }
+  h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-secondary); }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    font-family: Menlo, Consolas, monospace; font-size: 13px; font-weight: 600;
+    padding: 10px 16px; min-height: 44px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab:hover { background: var(--surface-2); }
+  .tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .toggle {
+    font-family: Menlo, Consolas, monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; min-height: 40px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+  }
+  .toggle.on { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+
+  .code-pill {
+    display: inline-block; font-family: Menlo, Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); color: var(--text); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;
+  }
+  .code-pill b, .code-pill span.val { color: var(--blue); font-weight: 600; }
+
+  .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 18px; min-height: 62px; }
+
+  .stage-frame {
+    border: 1px dashed var(--border); border-radius: 10px; background: var(--surface);
+    padding: 24px; overflow: auto;
+  }
+
+  .demo-wrap { position: relative; width: 320px; height: 260px; }
+
+  .guide {
+    position: absolute; top: 20px; left: 20px; width: 200px; height: 140px;
+    border: 1.5px dashed #B7B4AE;
+  }
+  .guide-label {
+    position: absolute; top: -22px; left: 0; font-size: 11px; color: var(--text-secondary);
+    white-space: nowrap; font-family: Menlo, Consolas, monospace;
+  }
+
+  .box {
+    position: absolute; top: 20px; left: 20px; width: 200px; height: 140px;
+    background: var(--orange-soft); border: 0 solid var(--green); padding: 0;
+    transition: width .18s, height .18s, padding .18s, border-width .18s;
+  }
+  .box.has-padding { padding: 20px; }
+  .box.has-border { border-width: 10px; }
+
+  .content-fill {
+    width: 100%; height: 100%; background: var(--blue-soft);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-family: Menlo, Consolas, monospace; font-size: 11.5px; font-weight: 700; color: var(--blue);
+    transition: width .18s, height .18s;
+  }
+
+  .facts-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .fact { font-size: 12px; color: var(--text-secondary); background: var(--surface-2); border-radius: 6px; padding: 5px 10px; }
+  .fact b { color: var(--text); font-weight: 700; }
+
+  @media (max-width: 560px) { .wrap { padding: 24px 16px 40px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>box-sizing — Coba Sendiri</h1>
+    <p>Bandingkan content-box vs border-box terhadap ukuran akhir elemen</p>
+  </header>
+
+  <div class="legend">
+    <span class="legend-item"><span class="swatch" style="background:var(--orange-soft);border:1px solid var(--orange);"></span> Padding</span>
+    <span class="legend-item"><span class="swatch" style="background:var(--green-soft);border:1px solid var(--green);"></span> Border</span>
+    <span class="legend-item"><span class="swatch" style="background:var(--blue-soft);border:1px solid var(--blue);"></span> Konten</span>
+    <span class="legend-item"><span class="swatch" style="background:transparent;border:1.5px dashed #B7B4AE;"></span> width/height dideklarasikan (200×140)</span>
+  </div>
+
+  <div class="tabs" id="tabsBS">
+    <button class="tab active" data-mode="content-box">content-box</button>
+    <button class="tab" data-mode="border-box">border-box</button>
+  </div>
+
+  <div class="toggle-row">
+    <button class="toggle" id="togglePadding">+ padding: 20px</button>
+    <button class="toggle" id="toggleBorder">+ border: 10px</button>
+  </div>
+
+  <div class="code-pill">.kotak { box-sizing: <b id="codeBS">content-box</b>; width: <span class="val">200px</span>; height: <span class="val">140px</span>; <span id="codeExtra"></span> }</div>
+
+  <p class="desc" id="descBS"></p>
+
+  <div class="stage-frame">
+    <div class="demo-wrap">
+      <div class="guide"><span class="guide-label">200 × 140 (dideklarasikan)</span></div>
+      <div class="box" id="boxBS">
+        <div class="content-fill" id="contentFill">konten</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facts-row" id="factsBS"></div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('#tabsBS .tab');
+  const box = document.getElementById('boxBS');
+  const contentFill = document.getElementById('contentFill');
+  const codeBS = document.getElementById('codeBS');
+  const codeExtra = document.getElementById('codeExtra');
+  const descBS = document.getElementById('descBS');
+  const factsBS = document.getElementById('factsBS');
+  const togglePadding = document.getElementById('togglePadding');
+  const toggleBorder = document.getElementById('toggleBorder');
+
+  let mode = 'content-box';
+  let paddingOn = false;
+  let borderOn = false;
+
+  const DESC = {
+    'content-box': 'width & height hanya menentukan ukuran area konten (biru). Padding dan border akan DITAMBAHKAN di luar ukuran itu, sehingga kotak sungguhannya membesar melebihi garis putus-putus 200×140 (nilai default semua browser).',
+    'border-box': 'width & height menentukan ukuran TOTAL kotak, termasuk padding dan border di dalamnya. Saat padding/border ditambah, yang menyusut adalah area kontennya (biru) — kotak tetap pas mengikuti garis putus-putus 200×140.'
+  };
+
+  function render() {
+    box.style.boxSizing = mode;
+    box.classList.toggle('has-padding', paddingOn);
+    box.classList.toggle('has-border', borderOn);
+
+    codeBS.textContent = mode;
+    const extras = [];
+    if (paddingOn) extras.push('padding: 20px;');
+    if (borderOn) extras.push('border: 10px solid;');
+    codeExtra.textContent = extras.join(' ');
+    descBS.textContent = DESC[mode];
+
+    requestAnimationFrame(() => {
+      const b = box.getBoundingClientRect();
+      const c = contentFill.getBoundingClientRect();
+      const totalW = Math.round(b.width);
+      const totalH = Math.round(b.height);
+      const contentW = Math.round(c.width);
+      const contentH = Math.round(c.height);
+      contentFill.textContent = contentW + ' × ' + contentH;
+      factsBS.innerHTML = [
+        ['Dideklarasikan', '200 × 140'],
+        ['Ukuran total kotak', totalW + ' × ' + totalH],
+        ['Ukuran area konten', contentW + ' × ' + contentH],
+        ['Melebihi garis putus-putus?', (totalW > 200 || totalH > 140) ? 'Ya' : 'Tidak']
+      ].map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+    });
+  }
+
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    mode = tab.dataset.mode;
+    render();
+  }));
+
+  togglePadding.addEventListener('click', () => {
+    paddingOn = !paddingOn;
+    togglePadding.classList.toggle('on', paddingOn);
+    render();
+  });
+
+  toggleBorder.addEventListener('click', () => {
+    borderOn = !borderOn;
+    toggleBorder.classList.toggle('on', borderOn);
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

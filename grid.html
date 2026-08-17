@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jenis-jenis Grid — Coba Sendiri</title>
+<style>
+  :root {
+    --text: #2C2C2B;
+    --text-secondary: #7D7A75;
+    --canvas: #FFFFFF;
+    --surface: #F9F8F7;
+    --surface-2: #F0EFED;
+    --border: #E6E5E3;
+    --blue: #2783DE;
+    --blue-soft: #E5F2FC;
+    --green: #46A171;
+    --green-soft: #E8F1EC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--canvas);
+    color: var(--text);
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 36px 28px 56px; }
+  header { margin-bottom: 10px; }
+  h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  .intro { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 32px; }
+  .intro-card { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 12px 14px; }
+  .intro-card b { font-size: 13px; }
+  .intro-card p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+
+  section { margin-bottom: 38px; }
+  section:last-child { margin-bottom: 0; }
+  h2 { font-size: 16px; margin: 0 0 4px; }
+  .section-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 14px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    font-family: Menlo, Consolas, monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; min-height: 40px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab:hover { background: var(--surface-2); }
+  .tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .code-pill {
+    display: inline-block; font-family: Menlo, Consolas, monospace; font-size: 12.5px;
+    background: var(--surface-2); color: var(--text); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;
+    max-width: 100%; overflow-x: auto; white-space: pre;
+  }
+  .code-pill b { color: var(--blue); font-weight: 700; }
+
+  .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 18px; min-height: 42px; }
+
+  .stage-frame { border: 1px dashed var(--border); border-radius: 10px; background: var(--surface); padding: 20px; overflow: auto; }
+
+  .item {
+    font-family: Menlo, Consolas, monospace; font-weight: 700; font-size: 13px;
+    background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Section 1: grid-template-columns */
+  #stage1 { display: grid; gap: 10px; }
+  #stage1 .item { height: 50px; }
+
+  /* Section 2: grid-template-rows */
+  #stage2 { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); height: 220px; }
+
+  /* Section 3: gap */
+  #stage3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+  #stage3 .item { height: 50px; }
+
+  /* Section 4: justify-items / align-items */
+  #stage4 { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(2, 80px); gap: 10px; }
+  #stage4 .item { padding: 10px 14px; height: auto; width: auto; }
+
+  /* Section 5: justify-content / align-content */
+  #stage5 { display: grid; grid-template-columns: repeat(3, 70px); grid-template-rows: repeat(2, 50px); gap: 10px; height: 200px; }
+
+  /* Section 6: grid-column / grid-row span */
+  #stage6 { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 70px); grid-auto-rows: 70px; gap: 10px; }
+  #stage6 .item.span-col { grid-column: span 2; }
+  #stage6 .item.span-row { grid-row: span 2; }
+  #boxGridB.span-col.span-row { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  #boxGridB.span-col:not(.span-row), #boxGridB.span-row:not(.span-col) { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+
+  .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .toggle {
+    font-family: Menlo, Consolas, monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 14px; min-height: 40px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+  }
+  .toggle.on { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+
+  .facts-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .fact { font-size: 12px; color: var(--text-secondary); background: var(--surface-2); border-radius: 6px; padding: 5px 10px; }
+  .fact b { color: var(--text); font-weight: 700; }
+
+  @media (max-width: 560px) { .wrap { padding: 24px 16px 40px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Jenis-jenis Grid</h1>
+    <p>Klik tombol pada tiap bagian untuk melihat langsung efeknya</p>
+  </header>
+
+  <div class="intro">
+    <div class="intro-card"><b>Properti Kontainer</b><p>Diatur pada elemen <code>display: grid</code> itu sendiri: grid-template-columns/rows, gap, justify/align-items, justify/align-content.</p></div>
+    <div class="intro-card"><b>Properti Item</b><p>Diatur pada anak-anak di dalam kontainer grid: grid-column, grid-row (untuk menggabungkan beberapa sel).</p></div>
+  </div>
+
+  <section>
+    <h2>1. grid-template-columns</h2>
+    <p class="section-sub">Menentukan jumlah &amp; lebar kolom grid.</p>
+    <div class="tabs" id="tabs1">
+      <button class="tab active" data-mode="c3">3 kolom sama</button>
+      <button class="tab" data-mode="c4">4 kolom sama</button>
+      <button class="tab" data-mode="ratio">rasio 1:2:1</button>
+      <button class="tab" data-mode="fixed">tetap + fleksibel</button>
+    </div>
+    <div class="code-pill">.kontainer { grid-template-columns: <b id="code1"></b>; }</div>
+    <p class="desc" id="desc1"></p>
+    <div class="stage-frame"><div id="stage1">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts1"></div>
+  </section>
+
+  <section>
+    <h2>2. grid-template-rows</h2>
+    <p class="section-sub">Menentukan jumlah &amp; tinggi baris grid (kontainer di sini punya tinggi tetap 220px).</p>
+    <div class="tabs" id="tabs2">
+      <button class="tab active" data-mode="auto">auto</button>
+      <button class="tab" data-mode="equal">1fr 1fr</button>
+      <button class="tab" data-mode="ratio">2fr 1fr</button>
+      <button class="tab" data-mode="fixed">80px 1fr</button>
+    </div>
+    <div class="code-pill">.kontainer { grid-template-rows: <b id="code2"></b>; }</div>
+    <p class="desc" id="desc2"></p>
+    <div class="stage-frame"><div id="stage2">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts2"></div>
+  </section>
+
+  <section>
+    <h2>3. gap</h2>
+    <p class="section-sub">Menentukan jarak antar baris (row-gap) dan antar kolom (column-gap).</p>
+    <div class="tabs" id="tabs3">
+      <button class="tab active" data-mode="tight">rapat</button>
+      <button class="tab" data-mode="loose">renggang</button>
+      <button class="tab" data-mode="mixed">baris ≠ kolom</button>
+    </div>
+    <div class="code-pill" id="code3"></div>
+    <p class="desc" id="desc3"></p>
+    <div class="stage-frame"><div id="stage3">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts3"></div>
+  </section>
+
+  <section>
+    <h2>4. justify-items &amp; align-items</h2>
+    <p class="section-sub">Mengatur posisi tiap item di dalam sel gridnya masing-masing.</p>
+    <div class="tabs" id="tabs4">
+      <button class="tab active" data-mode="stretch">stretch</button>
+      <button class="tab" data-mode="start">start</button>
+      <button class="tab" data-mode="center">center</button>
+      <button class="tab" data-mode="end">end</button>
+    </div>
+    <div class="code-pill">.kontainer { justify-items: <b id="code4a"></b>; align-items: <b id="code4b"></b>; }</div>
+    <p class="desc" id="desc4"></p>
+    <div class="stage-frame"><div id="stage4">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts4"></div>
+  </section>
+
+  <section>
+    <h2>5. justify-content &amp; align-content</h2>
+    <p class="section-sub">Mengatur posisi seluruh grid di dalam kontainer, saat grid lebih kecil dari kontainernya.</p>
+    <div class="tabs" id="tabs5">
+      <button class="tab active" data-mode="start">start</button>
+      <button class="tab" data-mode="center">center</button>
+      <button class="tab" data-mode="end">end</button>
+      <button class="tab" data-mode="between">space-between</button>
+    </div>
+    <div class="code-pill">.kontainer { justify-content: <b id="code5a"></b>; align-content: <b id="code5b"></b>; }</div>
+    <p class="desc" id="desc5"></p>
+    <div class="stage-frame"><div id="stage5">
+      <div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div><div class="item">5</div><div class="item">6</div>
+    </div></div>
+    <div class="facts-row" id="facts5"></div>
+  </section>
+
+  <section>
+    <h2>6. Properti item: grid-column &amp; grid-row</h2>
+    <p class="section-sub">Diatur langsung pada satu item untuk membuatnya menggabungkan beberapa sel (span).</p>
+    <div class="toggle-row">
+      <button class="toggle" id="toggleColSpan">grid-column: Kotak B span 2 kolom</button>
+      <button class="toggle" id="toggleRowSpan">grid-row: Kotak B span 2 baris</button>
+    </div>
+    <div class="code-pill">.kotak-b { <b id="code6">/* default */</b> }</div>
+    <div class="stage-frame"><div id="stage6">
+      <div class="item">A</div><div class="item" id="boxGridB">B</div><div class="item">C</div><div class="item">D</div><div class="item">E</div>
+    </div></div>
+    <div class="facts-row" id="facts6"></div>
+  </section>
+</div>
+
+<script>
+  function factsHtml(facts) {
+    return facts.map(([l, v]) => `<span class="fact">${l} <b>${v}</b></span>`).join('');
+  }
+
+  function runTabSection(tabsId, onSelect) {
+    const tabs = document.querySelectorAll('#' + tabsId + ' .tab');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      onSelect(tab.dataset.mode);
+    }));
+    onSelect(tabs[0].dataset.mode);
+  }
+
+  // Section 1: grid-template-columns
+  (function () {
+    const stage = document.getElementById('stage1');
+    const code = document.getElementById('code1');
+    const desc = document.getElementById('desc1');
+    const facts = document.getElementById('facts1');
+    const cfg = {
+      c3: { value: 'repeat(3, 1fr)', desc: '3 kolom dengan lebar sama, otomatis membagi rata sisa ruang.', facts: [['Jumlah kolom', '3'], ['Lebar tiap kolom', 'Sama rata']] },
+      c4: { value: 'repeat(4, 1fr)', desc: '4 kolom sama besar; karena lebih banyak kolom, tiap kolom jadi lebih sempit.', facts: [['Jumlah kolom', '4'], ['Lebar tiap kolom', 'Sama rata']] },
+      ratio: { value: '1fr 2fr 1fr', desc: '3 kolom, tapi kolom tengah dibuat 2x lebih lebar dari kolom kiri & kanan.', facts: [['Jumlah kolom', '3'], ['Lebar tiap kolom', 'Rasio 1:2:1']] },
+      fixed: { value: '100px 1fr 1fr', desc: 'Kolom pertama lebar tetap 100px, dua kolom sisanya fleksibel membagi sisa ruang.', facts: [['Jumlah kolom', '3'], ['Lebar tiap kolom', 'Tetap + fleksibel']] }
+    };
+    runTabSection('tabs1', mode => {
+      const c = cfg[mode];
+      stage.style.gridTemplateColumns = c.value;
+      code.textContent = c.value;
+      desc.textContent = c.desc;
+      facts.innerHTML = factsHtml(c.facts);
+    });
+  })();
+
+  // Section 2: grid-template-rows
+  (function () {
+    const stage = document.getElementById('stage2');
+    const code = document.getElementById('code2');
+    const desc = document.getElementById('desc2');
+    const facts = document.getElementById('facts2');
+    const cfg = {
+      auto: { value: 'auto', desc: 'Tinggi baris menyesuaikan konten; karena kontainer punya tinggi lebih, sisa ruang tetap kosong di bawah.', facts: [['Tinggi baris', 'Sesuai konten'], ['Sisa ruang kontainer', 'Dibiarkan kosong']] },
+      equal: { value: '1fr 1fr', desc: 'Kontainer dibagi rata jadi 2 baris yang sama tinggi, mengisi penuh tinggi kontainer.', facts: [['Tinggi baris', 'Sama rata'], ['Sisa ruang kontainer', 'Terisi penuh']] },
+      ratio: { value: '2fr 1fr', desc: 'Baris pertama dibuat 2x lebih tinggi dari baris kedua.', facts: [['Tinggi baris', 'Rasio 2:1'], ['Sisa ruang kontainer', 'Terisi penuh']] },
+      fixed: { value: '80px 1fr', desc: 'Baris pertama tinggi tetap 80px, baris kedua mengisi sisa tinggi kontainer.', facts: [['Tinggi baris', 'Tetap + fleksibel'], ['Sisa ruang kontainer', 'Terisi penuh']] }
+    };
+    runTabSection('tabs2', mode => {
+      const c = cfg[mode];
+      stage.style.gridTemplateRows = c.value;
+      code.textContent = c.value;
+      desc.textContent = c.desc;
+      facts.innerHTML = factsHtml(c.facts);
+    });
+  })();
+
+  // Section 3: gap
+  (function () {
+    const stage = document.getElementById('stage3');
+    const code = document.getElementById('code3');
+    const desc = document.getElementById('desc3');
+    const facts = document.getElementById('facts3');
+    const cfg = {
+      tight: { rowGap: '8px', colGap: '8px', code: '.kontainer { gap: 8px; }', desc: 'Jarak antar baris dan kolom dibuat kecil dan sama besar (gap: 8px).', facts: [['row-gap', '8px'], ['column-gap', '8px']] },
+      loose: { rowGap: '24px', colGap: '24px', code: '.kontainer { gap: 24px; }', desc: 'Jarak antar baris dan kolom dibuat besar dan sama besar (gap: 24px).', facts: [['row-gap', '24px'], ['column-gap', '24px']] },
+      mixed: { rowGap: '32px', colGap: '4px', code: '.kontainer { row-gap: 32px; column-gap: 4px; }', desc: 'row-gap dan column-gap bisa diatur berbeda — di sini jarak vertikal jauh lebih besar dari jarak horizontal.', facts: [['row-gap', '32px'], ['column-gap', '4px']] }
+    };
+    runTabSection('tabs3', mode => {
+      const c = cfg[mode];
+      stage.style.rowGap = c.rowGap;
+      stage.style.columnGap = c.colGap;
+      code.textContent = c.code;
+      desc.textContent = c.desc;
+      facts.innerHTML = factsHtml(c.facts);
+    });
+  })();
+
+  // Section 4: justify-items / align-items
+  (function () {
+    const stage = document.getElementById('stage4');
+    const code4a = document.getElementById('code4a');
+    const code4b = document.getElementById('code4b');
+    const desc = document.getElementById('desc4');
+    const facts = document.getElementById('facts4');
+    const cfg = {
+      stretch: { desc: 'Item melebar mengisi penuh sel gridnya, baik horizontal maupun vertikal (nilai default).', facts: [['Ukuran item', 'Mengikuti sel']] },
+      start: { desc: 'Item hanya sebesar kontennya sendiri dan menempel ke pojok kiri-atas selnya.', facts: [['Posisi', 'Kiri-atas sel'], ['Ukuran item', 'Sesuai konten']] },
+      center: { desc: 'Item hanya sebesar kontennya sendiri dan diletakkan tepat di tengah selnya.', facts: [['Posisi', 'Tengah sel'], ['Ukuran item', 'Sesuai konten']] },
+      end: { desc: 'Item hanya sebesar kontennya sendiri dan menempel ke pojok kanan-bawah selnya.', facts: [['Posisi', 'Kanan-bawah sel'], ['Ukuran item', 'Sesuai konten']] }
+    };
+    runTabSection('tabs4', mode => {
+      const c = cfg[mode];
+      stage.style.justifyItems = mode;
+      stage.style.alignItems = mode;
+      code4a.textContent = mode;
+      code4b.textContent = mode;
+      desc.textContent = c.desc;
+      facts.innerHTML = factsHtml(c.facts);
+    });
+  })();
+
+  // Section 5: justify-content / align-content
+  (function () {
+    const stage = document.getElementById('stage5');
+    const code5a = document.getElementById('code5a');
+    const code5b = document.getElementById('code5b');
+    const desc = document.getElementById('desc5');
+    const facts = document.getElementById('facts5');
+    const cfg = {
+      start: { value: 'start', desc: 'Seluruh grid menempel ke pojok kiri-atas kontainer; sisa ruang kosong berkumpul di kanan & bawah.', facts: [['Posisi grid', 'Kiri-atas']] },
+      center: { value: 'center', desc: 'Seluruh grid diletakkan tepat di tengah kontainer, baik horizontal maupun vertikal.', facts: [['Posisi grid', 'Tengah']] },
+      end: { value: 'end', desc: 'Seluruh grid menempel ke pojok kanan-bawah kontainer.', facts: [['Posisi grid', 'Kanan-bawah']] },
+      between: { value: 'space-between', desc: 'Baris & kolom grid direnggangkan sehingga sisa ruang kosong terbagi rata di antaranya.', facts: [['Posisi grid', 'Merenggang mengisi kontainer']] }
+    };
+    runTabSection('tabs5', mode => {
+      const c = cfg[mode];
+      stage.style.justifyContent = c.value;
+      stage.style.alignContent = c.value;
+      code5a.textContent = c.value;
+      code5b.textContent = c.value;
+      desc.textContent = c.desc;
+      facts.innerHTML = factsHtml(c.facts);
+    });
+  })();
+
+  // Section 6: grid-column / grid-row span
+  (function () {
+    const boxB = document.getElementById('boxGridB');
+    const toggleCol = document.getElementById('toggleColSpan');
+    const toggleRow = document.getElementById('toggleRowSpan');
+    const code6 = document.getElementById('code6');
+    const facts6 = document.getElementById('facts6');
+    let colOn = false, rowOn = false;
+
+    function render() {
+      boxB.classList.toggle('span-col', colOn);
+      boxB.classList.toggle('span-row', rowOn);
+      toggleCol.classList.toggle('on', colOn);
+      toggleRow.classList.toggle('on', rowOn);
+      const lines = [];
+      if (colOn) lines.push('grid-column: span 2;');
+      if (rowOn) lines.push('grid-row: span 2;');
+      code6.textContent = lines.length ? lines.join(' ') : '/* default */';
+      facts6.innerHTML = factsHtml([
+        ['Lebar Kotak B', colOn ? '2 kolom' : '1 kolom'],
+        ['Tinggi Kotak B', rowOn ? '2 baris' : '1 baris']
+      ]);
+    }
+
+    toggleCol.addEventListener('click', () => { colOn = !colOn; render(); });
+    toggleRow.addEventListener('click', () => { rowOn = !rowOn; render(); });
+    render();
+  })();
+</script>
+</body>
+</html>
